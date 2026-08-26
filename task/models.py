@@ -10,7 +10,7 @@ class TaskType(models.Model):
 
 
 class Position(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -33,7 +33,7 @@ class Priority(models.TextChoices):
 class Task(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
-    deadline = models.DateField()
+    deadline = models.DateTimeField()
     is_completed = models.BooleanField(default=False)
     priority = models.CharField(
         max_length=10,
