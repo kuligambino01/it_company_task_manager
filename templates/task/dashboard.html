@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+	<h1>Dashboard</h1>
+{% endblock %}
+
+{% block content %}
+	<p>Team quantity:{{ workers }}</p>
+	<p>{{ tasks }} tasks to do!</p>
+	<form method="post" action="{% url 'logout' %}">
+		{% csrf_token %}
+		<input value="Logout" type="submit">
+	</form>
+{% endblock %}
+
+
+
