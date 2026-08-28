@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form method="get" action="">
+		{{ search_form }}
+		<input value="Search" type="submit">
+	</form>
+
+	{% for obj in object_list %}
+		<ul>
+			<li>
+				{{ obj.name }}
+			</li>
+		</ul>
+	{% endfor %}
+{% endblock %}
