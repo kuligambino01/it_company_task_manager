@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms'
+    'crispy_bootstrap5'
     'task'
 ]
 
@@ -100,7 +102,6 @@ AUTH_USER_MODEL = "task.Worker"
 
 LOGIN_REDIRECT_URL = "/"
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
@@ -129,3 +130,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
