@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 
 from task.forms import TaskTypeSearchForm
@@ -52,3 +53,10 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
             return queryset.filter(name__icontains=name)
 
         return queryset
+
+
+class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = TaskType
+    fields = ("name",)
+    template_name = "task/task_type_create.html"
+    success_url = reverse_lazy("task:task_type-list")
