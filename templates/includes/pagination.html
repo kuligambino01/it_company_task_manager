@@ -1,0 +1,36 @@
+{% load query_transform %}
+
+{% if is_paginated %}
+  <nav aria-label="Task pagination" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+        {% if page_obj.has_previous %}
+          <a href="?{% query_transform request page=page_obj.previous_page_number %}"
+             class="page-link">‹</a>
+        {% else %}
+          <span class="page-link">‹</span>
+        {% endif %}
+      </li>
+
+      {% for page_number in paginator.page_range %}
+        <li class="page-item {% if page_obj.number == page_number %}active{% endif %}">
+          {% if page_obj.number == page_number %}
+            <span class="page-link" aria-current="page">{{ page_number }}</span>
+          {% else %}
+            <a href="?{% query_transform request page=page_number %}"
+               class="page-link">{{ page_number }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+
+      <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+        {% if page_obj.has_next %}
+          <a href="?{% query_transform request page=page_obj.next_page_number %}"
+             class="page-link">›</a>
+        {% else %}
+          <span class="page-link">›</span>
+        {% endif %}
+      </li>
+    </ul>
+  </nav>
+{% endif %}

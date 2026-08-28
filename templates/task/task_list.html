@@ -1,45 +1,25 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 	<section class="card">
 		<header class="card-header">
-<div class="page-header">
-  <div class="row align-items-center">
-    <div class="col">
-      <div class="page-pretitle">Overview</div>
-      <h2 class="page-title">Tasks</h2>
-    </div>
-    <div class="col-auto ms-auto">
-      <div class="btn-list">
-        <span class="d-none d-sm-inline">
-          <a href="#" class="btn"> New view </a>
-        </span>
-        <a
-          href="#"
-          class="btn btn-primary d-none d-sm-inline-block"
-          data-bs-toggle="modal"
-          data-bs-target="#modal-report"
-        >
-          Create new task
-        </a>
-        <a
-          href="#"
-          class="btn btn-primary d-sm-none btn-icon"
-          data-bs-toggle="modal"
-          data-bs-target="#modal-report"
-          aria-label="Create new report"
-        >
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+			<div class="page-header">
+				<div class="row align-items-center">
+					<div class="col">
+						<div class="page-pretitle">Overview</div>
+						<h2 class="page-title">Tasks</h2>
+					</div>
+				</div>
+			</div>
 		</header>
 
 		<div class="card-body">
-			<form method="get" class="mb-3">
-				<div class="btn-list">
-					{{ search_form.is_completed }}
+			<form method="get" class="row g-2 align-items-end">
+				<div class="col-auto">
+					{{ search_form.is_completed|as_crispy_field }}
+				</div>
+				<div class="col-auto mb-3">
 					<button type="submit" class="btn btn-primary">Search</button>
 				</div>
 			</form>
