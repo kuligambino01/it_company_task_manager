@@ -32,6 +32,7 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
     template_name = "task/task_type_list.html"
     form_class = TaskTypeSearchForm
+    queryset = TaskType.objects.all().order_by("task")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -66,4 +67,9 @@ class TaskTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = TaskType
     fields = ("name",)
     template_name = "task/task_type_form.html"
+    success_url = reverse_lazy("task:task_type-list")
+
+class TaskTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = TaskType
+    template_name = "task/task_type_delete.html"
     success_url = reverse_lazy("task:task_type-list")
