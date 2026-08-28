@@ -8,27 +8,33 @@
 
 	<title>{% block title %}Task Manager{% endblock %}</title>
 
-	<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
+	<link rel="stylesheet"
+	      href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler.min.css">
 
-	<link
-			rel="stylesheet"
-			href="{% static 'css/styles.css' %}">
+	<link rel="stylesheet"
+	      href="{% static 'css/styles.css' %}">
+
 </head>
 
 <body>
+<div class="page">
 
-{% include "includes/navigation_bar.html" %}
+	{% include "includes/navigation_bar.html" %}
 
-<div class="page-body">
-	<div class="container-xl">
-		{% block content %}
-		{% endblock %}
+	<div class="page-wrapper">
+
+		<main class="page-body">
+			<div class="container-xl">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</main>
+
 	</div>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/js/tabler.min.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,33 @@
+<header class="navbar navbar-expand-md d-print-none">
+  <div class="container-xl">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbar-menu" aria-controls="navbar-menu"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a href="{% url 'task:dashboard' %}" aria-label="Task Manager"
+       class="navbar-brand navbar-brand-autodark me-3">
+      <svg xmlns="http://www.w3.org/2000/svg" width="170" height="32"
+           viewBox="0 0 360 68" class="navbar-brand-image" aria-hidden="true">
+
+        <rect x="2" y="2" width="64" height="64" rx="15"
+              fill="var(--tblr-primary, #206bc4)" />
+
+        <rect x="16" y="13" width="36" height="42" rx="6"
+              fill="none" stroke="#fff" stroke-width="4" />
+
+        <path d="M22 27l5 5 7-9M39 27h8M22 40l5 5 7-9M39 40h8M39 51h8"
+              fill="none" stroke="#fff" stroke-width="4"
+              stroke-linecap="round" stroke-linejoin="round" />
+
+        <circle cx="27" cy="51" r="2.5" fill="#fff" />
+
+        <text x="82" y="46" font-family="Inter, Arial, sans-serif"
+              font-size="32" font-weight="700" fill="currentColor">
+          Task Manager
+        </text>
+      </svg>
+    </a>
+  </div>
+</header>

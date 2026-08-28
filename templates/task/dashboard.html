@@ -6,12 +6,14 @@
 {% endblock %}
 
 {% block content %}
-	<p>Team quantity:{{ workers }}</p>
-	<p>{{ tasks }} tasks to do!</p>
-	<form method="post" action="{% url 'logout' %}">
-		{% csrf_token %}
-		<input value="Logout" type="submit">
-	</form>
+	<div class="card">
+		<p>Team quantity:{{ workers }}</p>
+		<p>{{ tasks }} tasks to do!</p>
+		<form method="post" action="{% url 'logout' %}">
+			{% csrf_token %}
+			<input value="Logout" type="submit">
+		</form>
+	</div>
 {% endblock %}
 
 
