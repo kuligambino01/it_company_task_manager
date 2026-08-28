@@ -1,16 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views import generic
 
-from task.forms import TaskTypeSearchForm
-from task.models import (Task,
-                         TaskType,
-
-                         )
+from task.models import (
+    Task,
+)
 
 
 # Create your views here.
@@ -25,51 +20,3 @@ def dashboard(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, "task/dashboard.html", context=context)
-
-
-class TaskTypeListView(LoginRequiredMixin, generic.ListView):
-    model = TaskType
-    paginate_by = 10
-    template_name = "task/task_type_list.html"
-    form_class = TaskTypeSearchForm
-    queryset = TaskType.objects.all().order_by("task")
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        name = self.request.GET.get("name", "")
-
-        context["search_form"] = TaskTypeSearchForm(
-            initial={"name": name}
-        )
-
-        return context
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        name = self.request.GET.get("name")
-
-        if name:
-            return queryset.filter(name__icontains=name)
-
-        return queryset
-
-
-class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
-    model = TaskType
-    fields = ("name",)
-    template_name = "task/task_type_form.html"
-    success_url = reverse_lazy("task:task_type-list")
-
-
-class TaskTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
-    model = TaskType
-    fields = ("name",)
-    template_name = "task/task_type_form.html"
-    success_url = reverse_lazy("task:task_type-list")
-
-class TaskTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = TaskType
-    template_name = "task/task_type_delete.html"
-    success_url = reverse_lazy("task:task_type-list")
