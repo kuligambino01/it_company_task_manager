@@ -19,8 +19,14 @@
 
 <body>
 
-{% block content %}
-{% endblock %}
+{% include "includes/navigation_bar.html" %}
+
+<div class="page-body">
+	<div class="container-xl">
+		{% block content %}
+		{% endblock %}
+	</div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 
