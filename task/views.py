@@ -30,7 +30,7 @@ def dashboard(request: HttpRequest) -> HttpResponse:
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     template_name = "task/task_list.html"
-    queryset = Task.objects.select_related("task_type").prefetch_related("assignees")
+    queryset = Task.objects.select_related("task_type").prefetch_related("assignees").order_by("deadline")
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
