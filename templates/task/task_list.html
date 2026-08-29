@@ -41,7 +41,9 @@
 				<tbody>
 				{% for task in task_list %}
 					<tr>
-						<th scope="row">{{ task.name }}</th>
+						<th scope="row">
+							<a class="badge bg-blue-lt" href="{% url 'task:task-detail' task.pk %}">{{ task.name }}</a>
+						</th>
 						<td>{{ task.task_type }}</td>
 						<td>{{ task.get_priority_display }}</td>
 
@@ -55,9 +57,9 @@
 
 						<td>
 							{% if task.is_completed %}
-								<span class="badge bg-success">Completed</span>
+								<span class="badge bg-green-lt">Completed</span>
 							{% else %}
-								<span class="badge bg-secondary">Open</span>
+								<span  class="badge bg-blue-lt">Open</span>
 							{% endif %}
 						</td>
 					</tr>

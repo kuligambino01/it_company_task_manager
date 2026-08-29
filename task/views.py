@@ -31,7 +31,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     queryset = Task.objects.select_related("task_type").prefetch_related("assignees")
     paginate_by = 10
 
-    def get_context_data(self, *, object_list = None, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context["search_form"] = TaskSearchForm(self.request.GET or None)
@@ -50,3 +50,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
         return queryset
 
+
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Task
+    template_name = "task/task_detail.html"
