@@ -52,10 +52,14 @@
 						</span>
 					</div>
 					<div>
-						<span class="badge bg-blue text-blue-fg badge-pill">
-							Assignees:  {% for assignee in object.assignees.all %}
-							{{ assignee }}{% if not forloop.last %}, {% endif %} {% endfor %}
-					</span>
+						<h3 class="mb-1">Assignees:</h3>
+						<div class="d-flex flex-wrap gap-1">
+							{% for assignee in object.assignees.all %}
+								<span class="badge bg-blue text-blue-fg">
+        		{{ assignee }}
+      					</span>
+							{% endfor %}
+						</div>
 					</div>
 				</div>
 			</div>
