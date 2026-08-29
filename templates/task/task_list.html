@@ -21,9 +21,19 @@
 				</div>
 				<div class="col-auto mb-3">
 					<button type="submit" class="btn btn-primary">Search</button>
+					<a href="{% url 'task:task-create' %}" class="btn">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+						     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+						     stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
+							<path d="M12 5l0 14"/>
+							<path d="M5 12l14 0"/>
+						</svg>
+						Create task
+					</a>
 				</div>
 			</form>
 		</div>
+
 
 		<div class="table-responsive">
 			<table class="table table-vcenter card-table">
@@ -53,13 +63,13 @@
 							{% endfor %}
 						</td>
 
-						<td>{{ task.deadline|date:"d.m.Y H:i" }}</td>
+						<td>{{ task.deadline }}</td>
 
 						<td>
 							{% if task.is_completed %}
 								<span class="badge bg-green-lt">Completed</span>
 							{% else %}
-								<span  class="badge bg-blue-lt">Open</span>
+								<span class="badge bg-blue-lt">Open</span>
 							{% endif %}
 						</td>
 					</tr>

@@ -2,8 +2,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-	<h1>{{ object|yesno:"Update, Create" }} {{ task.name }}</h1>
 	<fieldset class="form-fieldset">
+	<h1>{{ object|yesno:"Update, Create" }} {% if object %}{{ task.name }}{% else %}task{% endif %}</h1>
 	<form action="" method="post">
 		{% csrf_token %}
 		{{ form|crispy }}
@@ -12,6 +12,7 @@
 			{% else %}
 			<input class="btn btn-primary" type="submit" value="Create">
 		{% endif %}
+			<a class="btn btn-danger" href="{% url 'task:task-list' %}">Cancel</a>
 	</form>
 	</fieldset>
 {% endblock %}
