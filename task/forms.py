@@ -19,7 +19,7 @@ class TaskSearchForm(forms.Form):
         required=False)
 
 
-class TaskCreationForm(forms.ModelForm):
+class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,

@@ -1,12 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Model
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from task.forms import TaskSearchForm, TaskCreationForm
+from task.forms import TaskSearchForm, TaskForm
 from task.models import (
     Task,
 )
@@ -57,8 +58,19 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "task/task_detail.html"
 
 
+
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
-    template_name = "task/task_creation_form.html"
+    template_name = "task/task_form.html"
     success_url = reverse_lazy("task:task-list")
-    form_class = TaskCreationForm
+    form_class = TaskForm
+
+
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    template_name = "task/task_form.html"
+    form_class = TaskForm
+
+    def get_success_url(self):
+        return reverse("task:task-detail",
+                       kwargs={"pk": self.object.pk})

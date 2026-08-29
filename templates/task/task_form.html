@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+	<h1>{{ object|yesno:"Update, Create" }} {{ task.name }}</h1>
+	<fieldset class="form-fieldset">
+	<form action="" method="post">
+		{% csrf_token %}
+		{{ form|crispy }}
+		{% if object %}
+			<input class="btn btn-primary" type="submit" value="Update">
+			{% else %}
+			<input class="btn btn-primary" type="submit" value="Create">
+		{% endif %}
+	</form>
+	</fieldset>
+{% endblock %}
