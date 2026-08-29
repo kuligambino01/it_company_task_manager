@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Model
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -58,7 +57,6 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "task/task_detail.html"
 
 
-
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     template_name = "task/task_form.html"
@@ -74,3 +72,14 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         return reverse("task:task-detail",
                        kwargs={"pk": self.object.pk})
+
+
+@login_required
+def toggle_task_complete_view(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+
+    if request.method == "POST":
+        task.is_completed = True
+        task.save(update_fields=["is_completed"])
+
+    return redirect("task:task-list")

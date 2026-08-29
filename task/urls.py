@@ -6,6 +6,7 @@ from task.views import (
     TaskDetailView,
     TaskCreateView,
     TaskUpdateView,
+    toggle_task_complete_view
 )
 
 app_name = "task"
@@ -26,4 +27,9 @@ urlpatterns = [
     path("tasks/<int:pk>/update",
          TaskUpdateView.as_view(),
          name="task-update"),
+    path(
+        "tasks/<int:pk>/complete/",
+        toggle_task_complete_view,
+        name="task-complete",
+    )
 ]

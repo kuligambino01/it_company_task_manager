@@ -70,7 +70,12 @@
 				<div class="card-body">
 					<div class="btn-list">
 						<a href="{% url 'task:task-update' object.pk %}" class="btn">Edit</a>
-						<a href="#" class="btn btn-success">Complete</a>
+						{% if not object.is_completed %}
+							<form method="post" action="{% url 'task:task-complete' object.pk %}">
+								{% csrf_token %}
+								<button type="submit" class="btn btn-success">Complete</button>
+							</form>
+						{% endif %}
 						<a href="{% url 'task:task-list' %}" class="btn btn-secondary">Back</a>
 					</div>
 				</div>
