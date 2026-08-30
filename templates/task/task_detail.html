@@ -77,6 +77,14 @@
 							</form>
 						{% endif %}
 						<a href="{% url 'task:task-list' %}" class="btn btn-secondary">Back</a>
+						<form method="post" action="{% url 'task:task-assign' object.pk %}">
+							{% csrf_token %}
+							{% if user in object.assignees.all %}
+								<button type="submit" class="btn btn-danger">Unassign</button>
+								{% else %}
+								<button type="submit" class="btn btn-success">Assign</button>
+							{% endif %}
+						</form>
 					</div>
 				</div>
 			</div>

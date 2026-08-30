@@ -5,6 +5,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
+from django.views.decorators.http import require_POST
 
 from task.forms import TaskSearchForm, TaskForm
 from task.models import (
@@ -83,3 +84,16 @@ def toggle_task_complete_view(request, pk):
         task.save(update_fields=["is_completed"])
 
     return redirect("task:task-list")
+
+
+@login_required
+@require_POST
+def assign_to_task_view(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+
+    if task.assignees.filter(pk=request.user.pk).exists():
+        task.assignees.remove(request.user)
+    else:
+        task.assignees.add(request.user)
+
+    return redirect("task:task-detail", task.pk)
