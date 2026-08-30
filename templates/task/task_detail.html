@@ -14,9 +14,21 @@
 
 		<div class="col-md-8">
 			<div class="card">
-				<div class="card-header">
-					<h1>Description</h1>
-					<!-- Description header -->
+				<div class="card-header d-flex align-items-center justify-content-between">
+				<!-- Header -->
+					<h1 class="mb-0">Description</h1>
+					<form method="post" action="{% url 'task:task-assign' object.pk %}">
+						{% csrf_token %}
+						{% if user in object.assignees.all %}
+							<button type="submit" class="btn btn-outline-danger btn-sm">
+								Unassign me
+							</button>
+						{% else %}
+							<button type="submit" class="btn btn-outline-primary btn-sm">
+								Assign me
+							</button>
+						{% endif %}
+					</form>
 				</div>
 				<div class="card-body">
 					{{ object.description }}
@@ -73,18 +85,10 @@
 						{% if not object.is_completed %}
 							<form method="post" action="{% url 'task:task-complete' object.pk %}">
 								{% csrf_token %}
-								<button type="submit" class="btn btn-success">Complete</button>
+								<button type="submit" class="btn btn-outline-success">Complete</button>
 							</form>
 						{% endif %}
-						<a href="{% url 'task:task-list' %}" class="btn btn-secondary">Back</a>
-						<form method="post" action="{% url 'task:task-assign' object.pk %}">
-							{% csrf_token %}
-							{% if user in object.assignees.all %}
-								<button type="submit" class="btn btn-danger">Unassign</button>
-								{% else %}
-								<button type="submit" class="btn btn-success">Assign</button>
-							{% endif %}
-						</form>
+						<a href="{% url 'task:task-list' %}" class="btn btn-outline-secondary">Back</a>
 					</div>
 				</div>
 			</div>
