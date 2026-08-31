@@ -6,7 +6,7 @@ from task.views import (
     TaskDetailView,
     TaskCreateView,
     TaskUpdateView,
-    toggle_task_complete_view, assign_to_task_view
+    toggle_task_complete_view, assign_to_task_view, MyTasksListView
 )
 
 app_name = "task"
@@ -36,6 +36,9 @@ urlpatterns = [
         "tasks/<int:pk>/assign/",
         assign_to_task_view,
         name="task-assign",
-    )
+    ),
+    path("my_tasks/",
+         MyTasksListView.as_view(),
+         name="my-tasks")
 
 ]

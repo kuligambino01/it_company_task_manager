@@ -62,6 +62,7 @@
 					<div class="dropdown-menu dropdown-menu-end">
 						<a href="{% url 'task:task-list' %}" class="dropdown-item">Task list</a>
 						<a href="{% url 'task:task-create' %}" class="dropdown-item">Task create</a>
+						<a href="{% url 'task:my-tasks' %}" class="dropdown-item">My tasks</a>
 						<div class="dropdown-divider"></div>
 						<form method="post" action="{% url 'logout' %}">
 							{% csrf_token %}

@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 

@@ -108,3 +108,24 @@ def assign_to_task_view(request, pk):
         task.assignees.add(request.user)
 
     return redirect("task:task-detail", task.pk)
+
+
+
+class MyTasksListView(LoginRequiredMixin, generic.ListView):
+    model = Task
+    template_name = "task/my_tasks.html"
+    paginate_by = 10
+
+
+    def get_queryset(self):
+        queryset = Task.objects.filter(assignees=self.request.user).order_by("deadline")
+
+        status = self.request.GET.get("status")
+
+        if status == "completed":
+            queryset = queryset.filter(is_completed=True)
+
+        elif status == "open":
+            queryset = queryset.filter(is_completed=False)
+
+        return queryset
