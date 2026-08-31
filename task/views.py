@@ -18,10 +18,15 @@ from task.models import (
 @login_required
 def dashboard(request: HttpRequest) -> HttpResponse:
     workers = get_user_model().objects.count()
-    task = Task.objects.count()
+    tasks = Task.objects.count()
+    completed_tasks = Task.objects.filter(is_completed=True).count()
+    open_tasks = Task.objects.filter(is_completed=False).count()
+
     context = {
         "workers": workers,
-        "tasks": task
+        "tasks": tasks,
+        "completed_tasks": completed_tasks,
+        "open_tasks": open_tasks,
     }
 
     return render(request, "task/dashboard.html", context=context)
