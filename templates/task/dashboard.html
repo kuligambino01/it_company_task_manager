@@ -62,9 +62,41 @@
 			</div>
 		</div>
 
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">My open tasks</h3>
+				</div>
+
+				<div class="card-body">
+					<div class="list-group list-group-flush">
+						{% for task in my_tasks %}
+							<a href="{% url 'task:task-detail' task.pk %}"
+							   class="list-group-item list-group-item-action px-0">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<div class="fw-semibold">{{ task.name }}</div>
+										<div class="text-secondary small">
+											{{ task.deadline|date:"d.m.Y H:i" }}
+										</div>
+									</div>
+
+									<span class="badge bg-blue-lt">
+           {{ task.get_priority_display }}
+          </span>
+								</div>
+							</a>
+						{% empty %}
+							<div class="text-secondary">
+								You have no open tasks.
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 {% endblock %}
-
 
 {% block extra_js %}
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -116,4 +148,5 @@
           }).render();
       });
 	</script>
+	</div>
 {% endblock %}

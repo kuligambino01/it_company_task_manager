@@ -21,12 +21,18 @@ def dashboard(request: HttpRequest) -> HttpResponse:
     tasks = Task.objects.count()
     completed_tasks = Task.objects.filter(is_completed=True).count()
     open_tasks = Task.objects.filter(is_completed=False).count()
+    my_tasks = (Task.objects.filter
+        (
+        assignees=request.user,
+        is_completed=False, ).order_by("deadline")[:5]
+    )
 
     context = {
         "workers": workers,
         "tasks": tasks,
         "completed_tasks": completed_tasks,
         "open_tasks": open_tasks,
+        "my_tasks": my_tasks
     }
 
     return render(request, "task/dashboard.html", context=context)
