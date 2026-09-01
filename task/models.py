@@ -3,31 +3,38 @@ from django.db import models
 
 
 class TaskType(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Position(models.Model):
-    name = models.CharField(max_length=50, null=True, blank=True)
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Worker(AbstractUser):
-    position = models.ForeignKey(Position, on_delete=models.PROTECT)
+    position = models.ForeignKey(
+        Position,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
-        return f"{self.username} - {self.position}"
+        if self.position:
+            return f"{self.username} - {self.position}"
+        return self.username
 
 
 class Priority(models.TextChoices):
-    URGENT = "urgent", "URGENT"
     LOW = "low", "LOW"
     MEDIUM = "medium", "MEDIUM"
     HIGH = "high", "HIGH"
+    URGENT = "urgent", "URGENT"
 
 
 class Task(models.Model):
@@ -40,7 +47,7 @@ class Task(models.Model):
         choices=Priority.choices,
         default=Priority.MEDIUM,
     )
-    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
+    task_type = models.ForeignKey(TaskType, on_delete=models.PROTECT)
     assignees = models.ManyToManyField(Worker, related_name="tasks")
 
     def __str__(self):
