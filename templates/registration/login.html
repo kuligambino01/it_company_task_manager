@@ -1,20 +1,47 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block content %}
-	{% if form.errors %}
-		<p>Please provide correct credentials</p>
-	{% endif %}
+{% block title %}Login | Task Manager{% endblock %}
 
-	{% if next %}
-		<p>Please provide ur credentials to login</p>
-	{% endif %}
-	<div class="card">
-		<form class="form-control" method="post" action={% url 'login' %}>
-			{% csrf_token %}
-			{{ form|crispy }}
-			<input class="btn btn-primary" value="Login" type="submit">
-			<input type="hidden" name="next" value="{{ next }}"/>
-		</form>
-	</div>
+{% block content %}
+  <div class="container-tight py-4">
+    <div class="text-center mb-4">
+      <h1>Task Manager</h1>
+      <div class="text-secondary">
+        Sign in to your account
+      </div>
+    </div>
+
+    <div class="card card-md">
+      <div class="card-body">
+        <h2 class="h2 text-center mb-4">Login</h2>
+
+        {% if form.errors %}
+          <div class="alert alert-danger" role="alert">
+            Incorrect username or password.
+          </div>
+        {% endif %}
+
+        {% if next %}
+          <div class="alert alert-info" role="alert">
+            Please log in to access this page.
+          </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}" autocomplete="off">
+          {% csrf_token %}
+
+          {{ form|crispy }}
+
+          <input type="hidden" name="next" value="{{ next }}">
+
+          <div class="form-footer">
+            <button type="submit" class="btn btn-primary w-100">
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}
