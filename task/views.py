@@ -89,12 +89,12 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 @login_required
+@require_POST
 def complete_task_view(request, pk):
     task = get_object_or_404(Task, pk=pk)
 
-    if request.method == "POST":
-        task.is_completed = True
-        task.save(update_fields=["is_completed"])
+    task.is_completed = True
+    task.save(update_fields=["is_completed"])
 
     return redirect("task:task-list")
 
