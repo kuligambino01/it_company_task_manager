@@ -89,7 +89,7 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 @login_required
-def toggle_task_complete_view(request, pk):
+def complete_task_view(request, pk):
     task = get_object_or_404(Task, pk=pk)
 
     if request.method == "POST":
