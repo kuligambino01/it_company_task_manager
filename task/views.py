@@ -70,6 +70,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
     template_name = "task/task_detail.html"
+    queryset = Task.objects.select_related("task_type").prefetch_related("assignees")
 
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
@@ -118,7 +119,7 @@ class MyTasksListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        queryset = Task.objects.filter(assignees=self.request.user).order_by("deadline")
+        queryset = Task.objects.filter(assignees=self.request.user).select_related("task_type").order_by("deadline")
 
         status = self.request.GET.get("status")
 
