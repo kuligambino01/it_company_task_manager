@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "it-company-task-manager"
+version = "0.1.0"
+description = "Django-based task management application for IT teams."
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "Django>=6.1,<6.2",
+    "django-crispy-forms",
+    "crispy-bootstrap5",
+]
+
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8",
+    "isort",
+]
+
+
+[tool.setuptools.packages.find]
+include = [
+    "task*",
+    "it_company_task_manager*",
+]
+
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+
+[tool.isort]
+profile = "black"
+line_length = 88
