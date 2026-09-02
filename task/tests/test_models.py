@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.utils import timezone
 
 from task.models import Position, Task, TaskType
 
@@ -35,7 +38,7 @@ class TaskModelTest(TestCase):
         task = Task.objects.create(
             name="Fix dashboard",
             description="test123",
-            deadline="2026-09-26 16:00:00",
+            deadline=timezone.now() + timedelta(days=1),
             is_completed="False",
             priority="medium",
             task_type=task_type,
