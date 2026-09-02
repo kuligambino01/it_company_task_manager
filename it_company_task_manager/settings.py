@@ -129,7 +129,7 @@ STATICFILES_DIRS = [
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
+EMAIL_BACKEND = {
     "default": {
         "BACKEND": "django.core.mail.backends.console.EmailBackend",
     },
