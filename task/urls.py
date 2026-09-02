@@ -7,8 +7,8 @@ from task.views import (
     TaskListView,
     TaskUpdateView,
     assign_to_task_view,
-    dashboard,
     complete_task_view,
+    dashboard,
 )
 
 app_name = "task"
