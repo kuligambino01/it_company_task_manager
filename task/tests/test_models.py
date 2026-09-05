@@ -39,7 +39,7 @@ class TaskModelTest(TestCase):
             name="Fix dashboard",
             description="test123",
             deadline=timezone.now() + timedelta(days=1),
-            is_completed="False",
+            is_completed=False,
             priority="medium",
             task_type=task_type,
         )
