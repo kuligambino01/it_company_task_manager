@@ -32,8 +32,7 @@ class TaskUpdateViewTests(BaseTaskTestCase):
 
         response = self.client.get(self.url)
 
-        self.assertTemplateUsed(
-            response, "task/task_form.html")
+        self.assertTemplateUsed(response, "task/task_form.html")
 
     def test_task_update_returns_form(self):
         self.client.force_login(self.user)
@@ -53,15 +52,17 @@ class TaskUpdateViewTests(BaseTaskTestCase):
 
         self.assertEqual(Task.objects.count(), 1)
 
-        response = self.client.post(self.url,
-                                    {
-                                        "name": "test123",
-                                        "description": "321test",
-                                        "deadline": deadline,
-                                        "priority": "high",
-                                        "task_type": self.task_type.pk,
-                                        "assignees": [self.user.pk]
-                                    })
+        response = self.client.post(
+            self.url,
+            {
+                "name": "test123",
+                "description": "321test",
+                "deadline": deadline,
+                "priority": "high",
+                "task_type": self.task_type.pk,
+                "assignees": [self.user.pk],
+            },
+        )
 
         self.task.refresh_from_db()
 
@@ -72,7 +73,9 @@ class TaskUpdateViewTests(BaseTaskTestCase):
         self.assertEqual(self.task.task_type, self.task_type)
         self.assertIn(self.user, self.task.assignees.all())
 
-        self.assertRedirects(response, reverse("task:task-detail", kwargs={"pk": self.task.pk}))
+        self.assertRedirects(
+            response, reverse("task:task-detail", kwargs={"pk": self.task.pk})
+        )
 
     def test_task_update_with_deadline_in_past(self):
         self.client.force_login(self.user)
@@ -82,14 +85,17 @@ class TaskUpdateViewTests(BaseTaskTestCase):
 
         self.assertEqual(Task.objects.count(), 1)
 
-        response = self.client.post(self.url,
-                                    {"name": "test1",
-                                     "description": "test123",
-                                     "deadline": deadline,
-                                     "priority": "low",
-                                     "task_type": self.task_type.pk,
-                                     "assignees": [self.user.pk]
-                                     })
+        response = self.client.post(
+            self.url,
+            {
+                "name": "test1",
+                "description": "test123",
+                "deadline": deadline,
+                "priority": "low",
+                "task_type": self.task_type.pk,
+                "assignees": [self.user.pk],
+            },
+        )
         self.task.refresh_from_db()
 
         form = response.context["form"]
@@ -101,22 +107,25 @@ class TaskUpdateViewTests(BaseTaskTestCase):
     def test_update_allows_unchanged_expired_deadline(self):
         self.client.force_login(self.user)
 
-        expired_deadline = (
-                timezone.now() - timedelta(days=1)
-        ).replace(second=0, microsecond=0)
+        expired_deadline = (timezone.now() - timedelta(days=1)).replace(
+            second=0, microsecond=0
+        )
 
         self.task.deadline = expired_deadline
         self.task.assignees.add(self.user)
         self.task.save(update_fields=["deadline"])
 
         response = self.client.post(
-            self.url, {
+            self.url,
+            {
                 "name": self.task.name,
                 "description": "Updated description",
                 "deadline": expired_deadline.strftime("%Y-%m-%dT%H:%M"),
                 "priority": self.task.priority,
                 "task_type": self.task.task_type.pk,
-                "assignees": [self.user.pk]})
+                "assignees": [self.user.pk],
+            },
+        )
 
         self.task.refresh_from_db()
 

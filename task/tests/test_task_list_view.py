@@ -28,8 +28,7 @@ class TaskListViewTests(BaseTaskTestCase):
 
         response = self.client.get(self.url)
 
-        self.assertTemplateUsed(
-            response, "task/task_list.html")
+        self.assertTemplateUsed(response, "task/task_list.html")
 
     def test_task_list_paginates_first_page(self):
         self.client.force_login(self.user)
@@ -93,9 +92,9 @@ class TaskListViewTests(BaseTaskTestCase):
     def test_search_by_query_param_true(self):
         self.client.force_login(self.user)
 
-        task_2 = self.create_task("task 2", is_completed=False)
+        self.create_task("task 2", is_completed=False)
         task_1 = self.create_task("task 1", is_completed=True)
-        task_3 = self.create_task("task 3", is_completed=False)
+        self.create_task("task 3", is_completed=False)
 
         response = self.client.get(self.url, {"is_completed": "true"})
 
@@ -107,7 +106,7 @@ class TaskListViewTests(BaseTaskTestCase):
         self.client.force_login(self.user)
 
         task_2 = self.create_task("task 2", is_completed=False)
-        task_1 = self.create_task("task 1", is_completed=True)
+        self.create_task("task 1", is_completed=True)
         task_3 = self.create_task("task 3", is_completed=False)
 
         response = self.client.get(self.url, {"is_completed": "false"})
@@ -127,7 +126,8 @@ class TaskListViewTests(BaseTaskTestCase):
         response = self.client.get(self.url)
 
         self.assertCountEqual(
-            list(response.context["task_list"]), [task_1, task_2, task_3, task_4])
+            list(response.context["task_list"]), [task_1, task_2, task_3, task_4]
+        )
 
     def test_search_with_invalid_query_param(self):
         self.client.force_login(self.user)

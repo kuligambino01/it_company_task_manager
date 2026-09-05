@@ -5,8 +5,7 @@ from task.tests.base import BaseTaskTestCase
 
 class TaskCompleteViewTests(BaseTaskTestCase):
     def setUp(self):
-        self.task = self.create_task(name="test task",
-                                     is_completed=False)
+        self.task = self.create_task(name="test task", is_completed=False)
 
         self.url = reverse("task:task-complete", kwargs={"pk": self.task.pk})
 
@@ -42,4 +41,3 @@ class TaskCompleteViewTests(BaseTaskTestCase):
         response = self.client.post(url)
 
         self.assertEqual(response.status_code, 404)
-

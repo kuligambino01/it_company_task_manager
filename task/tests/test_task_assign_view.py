@@ -29,7 +29,9 @@ class AssignTaskViewTests(BaseTaskTestCase):
         response = self.client.post(self.url)
 
         self.assertIn(self.user, self.task.assignees.all())
-        self.assertRedirects(response, reverse("task:task-detail", kwargs={"pk": self.task.pk}))
+        self.assertRedirects(
+            response, reverse("task:task-detail", kwargs={"pk": self.task.pk})
+        )
 
     def test_post_unassigns_user_from_task(self):
         self.client.force_login(self.user)
@@ -39,7 +41,9 @@ class AssignTaskViewTests(BaseTaskTestCase):
         response = self.client.post(self.url)
 
         self.assertNotIn(self.user, self.task.assignees.all())
-        self.assertRedirects(response, reverse("task:task-detail", kwargs={"pk": self.task.pk}))
+        self.assertRedirects(
+            response, reverse("task:task-detail", kwargs={"pk": self.task.pk})
+        )
 
     def test_nonexistent_task_returns_404(self):
         self.client.force_login(self.user)
@@ -52,12 +56,12 @@ class AssignTaskViewTests(BaseTaskTestCase):
 
     def test_post_assigns_user_without_removing_existing_assignees(self):
         self.client.force_login(self.user)
-        user_2 = get_user_model().objects.create_user(username="test123",
-                                                      password="test123",
-                                                      position=self.position)
+        user_2 = get_user_model().objects.create_user(
+            username="test123", password="test123", position=self.position
+        )
         self.task.assignees.add(user_2)
 
-        response = self.client.post(self.url)
+        self.client.post(self.url)
 
         self.assertEqual(self.task.assignees.count(), 2)
         self.assertCountEqual(self.task.assignees.all(), [user_2, self.user])

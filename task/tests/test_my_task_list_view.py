@@ -29,8 +29,7 @@ class MyTasksListViewTests(BaseTaskTestCase):
 
         response = self.client.get(self.url)
 
-        self.assertTemplateUsed(
-            response, "task/my_tasks.html")
+        self.assertTemplateUsed(response, "task/my_tasks.html")
 
     def test_task_list_paginates_first_page(self):
         self.client.force_login(self.user)
@@ -71,9 +70,9 @@ class MyTasksListViewTests(BaseTaskTestCase):
 
     def test_displays_only_current_user_tasks(self):
         self.client.force_login(self.user)
-        user_2 = get_user_model().objects.create_user(username="test123",
-                                                      password="test123",
-                                                      position=self.position)
+        user_2 = get_user_model().objects.create_user(
+            username="test123", password="test123", position=self.position
+        )
 
         task_2 = self.create_task("task 2", is_completed=False)
         task_1 = self.create_task("task 1", is_completed=True)
@@ -88,13 +87,15 @@ class MyTasksListViewTests(BaseTaskTestCase):
         response = self.client.get(self.url)
 
         self.assertCountEqual(
-            list(response.context["task_list"]), [task_1, task_2, task_4], )
+            list(response.context["task_list"]),
+            [task_1, task_2, task_4],
+        )
 
     def test_displays_task_assigned_to_multiple_users(self):
         self.client.force_login(self.user)
-        user_2 = get_user_model().objects.create_user(username="test123",
-                                                      password="test123",
-                                                      position=self.position)
+        user_2 = get_user_model().objects.create_user(
+            username="test123", password="test123", position=self.position
+        )
 
         task_2 = self.create_task("task 2", is_completed=False)
         task_1 = self.create_task("task 1", is_completed=True)
@@ -107,7 +108,9 @@ class MyTasksListViewTests(BaseTaskTestCase):
         response = self.client.get(self.url)
 
         self.assertCountEqual(
-            list(response.context["task_list"]), [task_1, task_2, task_4], )
+            list(response.context["task_list"]),
+            [task_1, task_2, task_4],
+        )
 
     def test_filters_open_tasks(self):
         self.client.force_login(self.user)
@@ -125,7 +128,9 @@ class MyTasksListViewTests(BaseTaskTestCase):
         response = self.client.get(self.url, {"status": "open"})
 
         self.assertCountEqual(
-            list(response.context["task_list"]), [task_3, task_2, task_4], )
+            list(response.context["task_list"]),
+            [task_3, task_2, task_4],
+        )
 
     def test_filters_completed_tasks(self):
         self.client.force_login(self.user)
@@ -142,8 +147,7 @@ class MyTasksListViewTests(BaseTaskTestCase):
 
         response = self.client.get(self.url, {"status": "completed"})
 
-        self.assertCountEqual(
-            list(response.context["task_list"]), [task_1])
+        self.assertCountEqual(list(response.context["task_list"]), [task_1])
 
     def test_without_status_displays_all_user_tasks(self):
         self.client.force_login(self.user)
@@ -161,7 +165,8 @@ class MyTasksListViewTests(BaseTaskTestCase):
         response = self.client.get(self.url)
 
         self.assertCountEqual(
-            list(response.context["task_list"]), [task_1, task_3, task_2, task_4])
+            list(response.context["task_list"]), [task_1, task_3, task_2, task_4]
+        )
 
     def test_invalid_status_displays_all_user_tasks(self):
         self.client.force_login(self.user)
@@ -179,7 +184,8 @@ class MyTasksListViewTests(BaseTaskTestCase):
         response = self.client.get(self.url, {"status": "abc"})
 
         self.assertCountEqual(
-            list(response.context["task_list"]), [task_1, task_3, task_2, task_4])
+            list(response.context["task_list"]), [task_1, task_3, task_2, task_4]
+        )
 
     def test_tasks_are_ordered_by_deadline(self):
         self.client.force_login(self.user)
@@ -207,4 +213,3 @@ class MyTasksListViewTests(BaseTaskTestCase):
         task_list = list(response.context["task_list"])
 
         self.assertEqual(task_list, [task_2, task_3, task_1])
-

@@ -30,8 +30,7 @@ class TaskCreateViewTests(BaseTaskTestCase):
 
         response = self.client.get(self.url)
 
-        self.assertTemplateUsed(
-            response, "task/task_form.html")
+        self.assertTemplateUsed(response, "task/task_form.html")
 
     def test_task_create_returns_form(self):
         self.client.force_login(self.user)
@@ -50,14 +49,17 @@ class TaskCreateViewTests(BaseTaskTestCase):
 
         self.assertEqual(Task.objects.count(), 0)
 
-        response = self.client.post(self.url,
-                                    {"name": "test1",
-                                     "description": "test123",
-                                     "deadline": deadline,
-                                     "priority": "low",
-                                     "task_type": self.task_type.pk,
-                                     "assignees": [self.user.pk]
-                                     })
+        response = self.client.post(
+            self.url,
+            {
+                "name": "test1",
+                "description": "test123",
+                "deadline": deadline,
+                "priority": "low",
+                "task_type": self.task_type.pk,
+                "assignees": [self.user.pk],
+            },
+        )
 
         task = Task.objects.get(name="test1")
 
@@ -79,14 +81,17 @@ class TaskCreateViewTests(BaseTaskTestCase):
 
         self.assertEqual(Task.objects.count(), 0)
 
-        response = self.client.post(self.url,
-                                    {"name": "test1",
-                                     "description": "test123",
-                                     "deadline": deadline,
-                                     "priority": "low",
-                                     "task_type": self.task_type.pk,
-                                     "assignees": [self.user.pk]
-                                     })
+        response = self.client.post(
+            self.url,
+            {
+                "name": "test1",
+                "description": "test123",
+                "deadline": deadline,
+                "priority": "low",
+                "task_type": self.task_type.pk,
+                "assignees": [self.user.pk],
+            },
+        )
         form = response.context["form"]
 
         self.assertEqual(response.status_code, 200)
