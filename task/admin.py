@@ -34,16 +34,14 @@ class WorkerAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + ((("Position", {"fields": ("position",)}),))
     add_fieldsets = UserAdmin.add_fieldsets + (
         (
-            (
-                "Position",
-                {
-                    "fields": (
-                        "first_name",
-                        "last_name",
-                        "position",
-                    )
-                },
-            ),
-        )
+            "Position",
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "position",
+                )
+            },
+        ),
     )
     list_filter = ("position__name",)
