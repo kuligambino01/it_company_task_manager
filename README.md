@@ -104,12 +104,27 @@ Install the application together with the development dependencies defined in `p
 ```bash
 python -m pip install -e ".[dev]"
 ```
+
 Create a `.env` file based on `.env.example` and provide the required environment variables.
 
 Apply the existing database migrations:
 
 ```bash
 python manage.py migrate
+```
+
+Optionally populate the application with demo data:
+
+```bash
+python manage.py seed_demo_data
+```
+The command creates demo users, positions, task types, and tasks for testing the application.
+
+Example demo account:
+
+```text
+Username: developer
+Password: demo1234
 ```
 
 Optionally create an administrator account to access the Django admin panel:
@@ -183,7 +198,7 @@ Planned extensions:
 - Projects
 - Teams
 - Project-specific task management
-- Improved test coverage
+- Expand test coverage
 - Additional dashboard statistics
 
 ## Author
