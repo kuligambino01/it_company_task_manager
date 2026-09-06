@@ -52,7 +52,16 @@ class TaskForm(forms.ModelForm):
 
         original_deadline = Task.objects.get(pk=self.instance.pk).deadline
 
-        if deadline != original_deadline and deadline <= now:
+        normalized_original_deadline = original_deadline.replace(
+            second=0,
+            microsecond=0,
+        )
+        normalized_deadline = deadline.replace(
+            second=0,
+            microsecond=0,
+        )
+
+        if normalized_deadline != normalized_original_deadline and deadline <= now:
             raise ValidationError("New deadline must be in the future")
 
         return deadline
