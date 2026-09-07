@@ -33,6 +33,10 @@ manage deadlines and priorities, and track task completion.
 - Tabler UI
 - django-crispy-forms
 - ApexCharts
+- Github Actions
+- Black
+- isort
+- Flake8
 
 ## Data Model
 
@@ -153,6 +157,16 @@ Run the test suite:
 python manage.py test
 ```
 
+## Continuous Integration
+
+The project uses GitHub Actions to automatically run:
+
+- Black formatting checks
+- isort import checks
+- Flake8 linting
+- Django system checks
+- Test suite
+
 ## Code Quality
 
 Format the code with Black:
@@ -198,7 +212,6 @@ Planned extensions:
 - Projects
 - Teams
 - Project-specific task management
-- Expand test coverage
 - Additional dashboard statistics
 
 ## Author
