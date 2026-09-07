@@ -107,9 +107,7 @@ class TaskUpdateViewTests(BaseTaskTestCase):
     def test_update_allows_unchanged_expired_deadline(self):
         self.client.force_login(self.user)
 
-        expired_deadline = (timezone.now() - timedelta(days=1)).replace(
-            second=0, microsecond=0
-        )
+        expired_deadline = (timezone.now() - timedelta(days=1))
 
         self.task.deadline = expired_deadline
         self.task.assignees.add(self.user)

@@ -33,7 +33,7 @@ manage deadlines and priorities, and track task completion.
 - Tabler UI
 - django-crispy-forms
 - ApexCharts
-- Github Actions
+- GitHub Actions
 - Black
 - isort
 - Flake8

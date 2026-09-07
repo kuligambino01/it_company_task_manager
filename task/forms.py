@@ -61,7 +61,10 @@ class TaskForm(forms.ModelForm):
             microsecond=0,
         )
 
-        if normalized_deadline != normalized_original_deadline and deadline <= now:
+        if normalized_deadline == normalized_original_deadline:
+            return original_deadline
+
+        if deadline <= now:
             raise ValidationError("New deadline must be in the future")
 
         return deadline
