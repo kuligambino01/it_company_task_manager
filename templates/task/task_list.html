@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+	<section class="card">
+		<header class="card-header">
+			<div class="page-header">
+				<div class="row align-items-center">
+					<div class="col">
+						<div class="page-pretitle">Overview</div>
+						<h2 class="page-title">Tasks</h2>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="card-body">
+			<form method="get" class="row g-2 align-items-end">
+				<div class="col-auto">
+					{{ search_form.is_completed|as_crispy_field }}
+				</div>
+				<div class="col-auto mb-3">
+					<button type="submit" class="btn btn-primary">Search</button>
+					<a href="{% url 'task:task-create' %}" class="btn">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+						     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+						     stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
+							<path d="M12 5l0 14"/>
+							<path d="M5 12l14 0"/>
+						</svg>
+						Create task
+					</a>
+				</div>
+			</form>
+		</div>
+
+
+		<div class="table-responsive">
+			<table class="table table-vcenter card-table">
+				<thead>
+				<tr>
+					<th scope="col">Task</th>
+					<th scope="col">Type</th>
+					<th scope="col">Priority</th>
+					<th scope="col">Assignees</th>
+					<th scope="col">Deadline</th>
+					<th scope="col">Status</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				{% for task in task_list %}
+					<tr>
+						<th scope="row">
+							<a class="badge bg-blue-lt" href="{% url 'task:task-detail' task.pk %}">{{ task.name }}</a>
+						</th>
+						<td>{{ task.task_type }}</td>
+						<td>{{ task.get_priority_display }}</td>
+
+						<td>
+							{% for worker in task.assignees.all %}
+								{{ worker.username }}{% if not forloop.last %}, {% endif %}
+							{% endfor %}
+						</td>
+
+						<td>{{ task.deadline }}</td>
+
+						<td>
+							{% if task.is_completed %}
+								<span class="badge bg-green-lt">Completed</span>
+							{% else %}
+								<span class="badge bg-blue-lt">Open</span>
+							{% endif %}
+						</td>
+					</tr>
+				{% empty %}
+					<tr>
+						<td colspan="6" class="text-center text-secondary">
+							No tasks found.
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</section>
+{% endblock %}
