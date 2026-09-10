@@ -12,8 +12,6 @@ from task.models import (
     Task,
 )
 
-# Create your views here.
-
 
 @login_required
 def dashboard(request: HttpRequest) -> HttpResponse:
