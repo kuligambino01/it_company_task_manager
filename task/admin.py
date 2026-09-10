@@ -19,7 +19,13 @@ class TaskAdmin(admin.ModelAdmin):
         "priority",
         "task_type",
     )
-    search_fields = ("priority",)
+    search_fields = (
+        "name",
+        "description",
+        "task_type__name",
+        "assignees__username",
+    )
+    list_filter = ("priority",)
 
 
 @admin.register(Position)
