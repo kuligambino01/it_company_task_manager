@@ -19,7 +19,7 @@ class TaskSearchForm(forms.Form):
 
 class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
-        queryset=get_user_model().objects.all(),
+        queryset=get_user_model().objects.filter(is_active=True),
         widget=forms.CheckboxSelectMultiple,
     )
     deadline = forms.DateTimeField(
@@ -50,7 +50,7 @@ class TaskForm(forms.ModelForm):
 
             return deadline
 
-        original_deadline = Task.objects.get(pk=self.instance.pk).deadline
+        original_deadline = self.instance.deadline
 
         normalized_original_deadline = original_deadline.replace(
             second=0,
