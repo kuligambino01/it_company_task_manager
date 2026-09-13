@@ -4,6 +4,10 @@ A Django-based task management application designed for IT teams.
 It allows team members to create tasks, assign them to workers,
 manage deadlines and priorities, and track task completion.
 
+## Live Demo
+
+Try the application: [IT Company Task Manager](https://task-manager-7w8u.onrender.com)
+
 ## Features
 
 - User authentication
