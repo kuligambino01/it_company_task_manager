@@ -14,7 +14,11 @@ dependencies = [
     "Django>=6.1,<6.2",
     "django-crispy-forms",
     "crispy-bootstrap5",
-    "python-dotenv"
+    "python-dotenv<=1.2.3",
+    "psycopg2-binary<=2.9.13",
+    "whitenoise<=6.12",
+    "gunicorn<=26.2.0",
+
 ]
 
 
