@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Task Manager{% endblock %}
+
+{% block content %}
+	<div class="page-header mb-3">
+		<div class="row align-items-center">
+			<div class="col">
+				<div class="page-pretitle">Overview</div>
+				<h2 class="page-title">Dashboard</h2>
+			</div>
+		</div>
+	</div>
+
+	<div class="row row-deck row-cards">
+
+		<div class="col-sm-6 col-lg-3">
+			<div class="card">
+				<div class="card-body">
+					<div class="subheader">All tasks</div>
+					<div class="h1 mb-0">{{ tasks }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3">
+			<div class="card">
+				<div class="card-body">
+					<div class="subheader">Open tasks</div>
+					<div class="h1 mb-0">{{ open_tasks }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3">
+			<div class="card">
+				<div class="card-body">
+					<div class="subheader">Completed tasks</div>
+					<div class="h1 mb-0">{{ completed_tasks }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3">
+			<div class="card">
+				<div class="card-body">
+					<div class="subheader">Workers</div>
+					<div class="h1 mb-0">{{ workers }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Task status</h3>
+				</div>
+
+				<div class="card-body">
+					<div id="task-status-chart"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">My open tasks</h3>
+				</div>
+
+				<div class="card-body">
+					<div class="list-group list-group-flush">
+						{% for task in my_tasks %}
+							<a href="{% url 'task:task-detail' task.pk %}"
+							   class="list-group-item list-group-item-action px-0">
+								<div class="d-flex justify-content-between align-items-center">
+									<div>
+										<div class="fw-semibold">{{ task.name }}</div>
+										<div class="text-secondary small">
+											{{ task.deadline|date:"d.m.Y H:i" }}
+										</div>
+									</div>
+
+									<span class="badge bg-blue-lt">
+           {{ task.get_priority_display }}
+          </span>
+								</div>
+							</a>
+						{% empty %}
+							<div class="text-secondary">
+								You have no open tasks.
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block extra_js %}
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+	<script>
+      document.addEventListener("DOMContentLoaded", function () {
+          new ApexCharts(document.getElementById("task-status-chart"), {
+              chart: {
+                  type: "donut",
+                  fontFamily: "inherit",
+                  height: 260,
+                  animations: {
+                      enabled: false
+                  }
+              },
+
+              series: [
+                  {{ completed_tasks }},
+                  {{ open_tasks }}
+              ],
+
+              labels: [
+                  "Completed",
+                  "Open"
+              ],
+
+              colors: [
+                  "var(--tblr-success)",
+                  "var(--tblr-primary)"
+              ],
+
+              legend: {
+                  show: true,
+                  position: "bottom"
+              },
+
+              dataLabels: {
+                  enabled: true
+              },
+
+              tooltip: {
+                  theme: "dark",
+                  fillSeriesColor: false
+              },
+
+              stroke: {
+                  width: 0
+              }
+          }).render();
+      });
+	</script>
+{% endblock %}

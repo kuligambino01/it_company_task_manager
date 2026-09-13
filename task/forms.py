@@ -1,0 +1,70 @@
+from datetime import timedelta
+
+from django import forms
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+
+from task.models import Task
+
+
+class TaskSearchForm(forms.Form):
+    is_completed = forms.TypedChoiceField(
+        choices=(("", "All"), ("true", "Completed"), ("false", "Not completed")),
+        coerce=lambda value: value == "true",
+        empty_value=None,
+        required=False,
+    )
+
+
+class TaskForm(forms.ModelForm):
+    assignees = forms.ModelMultipleChoiceField(
+        queryset=get_user_model().objects.filter(is_active=True),
+        widget=forms.CheckboxSelectMultiple,
+    )
+    deadline = forms.DateTimeField(
+        initial=lambda: timezone.now() + timedelta(days=1),
+        widget=forms.DateTimeInput(
+            attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
+        ),
+    )
+
+    class Meta:
+        model = Task
+        fields = (
+            "name",
+            "description",
+            "deadline",
+            "priority",
+            "task_type",
+            "assignees",
+        )
+
+    def clean_deadline(self):
+        deadline = self.cleaned_data["deadline"]
+        now = timezone.now()
+
+        if self.instance.pk is None:
+            if deadline <= now:
+                raise ValidationError("Deadline must be in the future")
+
+            return deadline
+
+        original_deadline = self.instance.deadline
+
+        normalized_original_deadline = original_deadline.replace(
+            second=0,
+            microsecond=0,
+        )
+        normalized_deadline = deadline.replace(
+            second=0,
+            microsecond=0,
+        )
+
+        if normalized_deadline == normalized_original_deadline:
+            return original_deadline
+
+        if deadline <= now:
+            raise ValidationError("New deadline must be in the future")
+
+        return deadline
